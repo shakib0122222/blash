@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>বিকাশ লেনদেন</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600&display=swap');
+
+        body {
+            font-family: 'Noto Sans Bengali', sans-serif;
+            margin: 0;
+            background-color: #f0f2f5;
+            color: #333;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        .header {
+            background-color: #D60057;
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .header-left i {
+            margin-right: 10px;
+            font-size: 22px;
+        }
+
+        .header-right {
+            font-size: 24px;
+        }
+
+        .nav-tabs {
+            display: flex;
+            background-color: white;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+            border-bottom: 1px solid #eee;
+        }
+
+        .nav-tab {
+            flex: 1;
+            text-align: center;
+            padding: 15px 0;
+            font-weight: 500;
+            color: #666;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .nav-tab.active {
+            color: #D60057;
+        }
+
+        .nav-tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background-color: #D60057;
+        }
+
+        .search-filter-bar {
+            display: flex;
+            padding: 15px 15px;
+            background-color: #f0f2f5;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .search-input-container {
+            flex: 1;
+            position: relative;
+            margin-right: 10px;
+        }
+
+        .search-input-container i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #888;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 12px 12px 12px 45px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 15px;
+            box-sizing: border-box;
+            outline: none;
+            background-color: white;
+        }
+
+        .filter-button {
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 12px 18px;
+            font-size: 15px;
+            color: #D60057;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+        }
+
+        .filter-button i {
+            margin-right: 8px;
+            font-size: 18px;
+        }
+
+        .transaction-header {
+            padding: 10px 20px;
+            font-size: 14px;
+            color: #777;
+            background-color: #f0f2f5;
+            border-bottom: 1px solid #eee;
+        }
+
+        .transaction-list {
+            background-color: white;
+            padding-bottom: 80px; /* Space for the bottom nav */
+        }
+
+        .transaction-item {
+            display: flex;
+            align-items: center;
+            padding: 15px 20px;
+            border-bottom: 1px solid #eee;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        .transaction-item:hover {
+            background-color: #f9f9f9;
+        }
+
+        .transaction-item:last-child {
+            border-bottom: none;
+        }
+
+        .transaction-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: #f2f2f2;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 22px;
+            font-weight: 500;
+            color: #666;
+            margin-right: 15px;
+            flex-shrink: 0;
+            overflow: hidden; /* For image avatars */
+        }
+
+        .transaction-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .transaction-details {
+            flex-grow: 1;
+        }
+
+        .transaction-type {
+            font-weight: 500;
+            font-size: 16px;
+            color: #333;
+        }
+
+        .transaction-info {
+            font-size: 14px;
+            color: #666;
+            margin-top: 2px;
+        }
+
+        .transaction-amount-date {
+            text-align: right;
+            margin-left: 10px;
+            flex-shrink: 0;
+        }
+
+        .transaction-amount {
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        .transaction-amount.send {
+            color: #D60057;
+        }
+
+        .transaction-amount.receive {
+            color: #008000; /* Example for received money */
+        }
+
+        .transaction-date {
+            font-size: 13px;
+            color: #888;
+            margin-top: 2px;
+        }
+
+        .transaction-item .arrow-icon {
+            margin-left: 15px;
+            color: #bbb;
+            font-size: 18px;
+        }
+
+        .bottom-nav {
+            display: flex;
+            justify-content: space-around;
+            background-color: white;
+            border-top: 1px solid #eee;
+            padding: 8px 0;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .nav-item {
+            text-align: center;
+            color: #777;
+            font-size: 12px;
+            cursor: pointer;
+            padding: 5px 0;
+        }
+
+        .nav-item.active {
+            color: #D60057;
+        }
+
+        .nav-item i {
+            font-size: 22px;
+            margin-bottom: 5px;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <div class="header-left">
+            <i class="fas fa-arrow-left"></i>
+            <span>ইনবক্স</span>
+        </div>
+        <div class="header-right">
+            <i class="fas fa-comment-dots"></i>
+        </div>
+    </div>
+
+    <div class="nav-tabs">
+        <div class="nav-tab active">লেনদেনসমূহ</div>
+        <div class="nav-tab">নোটিফিকেশন</div>
+    </div>
+
+    <div class="search-filter-bar">
+        <div class="search-input-container">
+            <i class="fas fa-search"></i>
+            <input type="text" class="search-input" placeholder="TrxID বা নাম্বারের দিয়ে খুঁজুন">
+        </div>
+        <button class="filter-button">
+            <i class="fas fa-filter"></i>
+            ফিল্টার
+        </button>
+    </div>
+
+    <div class="transaction-header">
+        গত ৩০ দিনের লেনদেন
+    </div>
+
+    <div class="transaction-list" id="transactionList">
+        <!-- Transactions will be inserted here by JavaScript -->
+    </div>
+
+    <div class="bottom-nav">
+        <div class="nav-item">
+            <i class="fas fa-home"></i>
+            <span>হোম</span>
+        </div>
+        <div class="nav-item">
+            <i class="fas fa-qrcode"></i>
+            <span>QR স্ক্যান</span>
+        </div>
+        <div class="nav-item">
+            <i class="fas fa-search"></i>
+            <span>সার্চ</span>
+        </div>
+        <div class="nav-item active">
+            <i class="fas fa-comment-dots"></i>
+            <span>ইনবক্স</span>
+        </div>
+    </div>
+
+    <script>
+        function getRandomInt(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+        function generateBangladeshiNumber() {
+            const prefixes = ['017', '018', '019', '016', '015', '013', '014'];
+            const prefix = prefixes[getRandomInt(0, prefixes.length - 1)];
+            let suffix = '';
+            for (let i = 0; i < 8; i++) {
+                suffix += getRandomInt(0, 9);
+            }
+            return prefix + suffix;
+        }
+
+        function generateRandomTrxID() {
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            let trxId = '';
+            for (let i = 0; i < 10; i++) {
+                trxId += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            return trxId;
+        }
+
+        function getRandomDate(daysAgo) {
+            const now = new Date();
+            now.setDate(now.getDate() - getRandomInt(0, daysAgo));
+            const day = String(now.getDate()).padStart(2, '0');
+            const month = String(now.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed
+            return `${day}/${month}`;
+        }
+
+        function getRandomTime() {
+            const hour = String(getRandomInt(0, 23)).padStart(2, '0');
+            const minute = String(getRandomInt(0, 59)).padStart(2, '0');
+            return `${hour}:${minute}`;
+        }
+
+        const transactionTypes = [
+            { name: "সেন্ড মানি", class: "send" },
+            { name: "মোবাইল রিচার্জ", class: "send" },
+            { name: "ক্যাশ আউট", class: "send" },
+            { name: "পেমেন্ট", class: "send" },
+            { name: "রিসিভ মানি", class: "receive" } // Added receive type for variation
+        ];
+
+        const avatars = [
+            'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H',
+            'https://via.placeholder.com/50/20B2AA/FFFFFF?text=J',
+            'https://via.placeholder.com/50/FF6347/FFFFFF?text=K',
+            'https://via.placeholder.com/50/6A5ACD/FFFFFF?text=L',
+            'https://via.placeholder.com/50/F0E68C/000000?text=M',
+            'https://via.placeholder.com/50/FFD700/000000?text=N'
+        ];
+
+        function createTransactionElement(type, number, trxId, amount, date, time, avatarContent) {
+            const item = document.createElement('div');
+            item.classList.add('transaction-item');
+
+            const avatarDiv = document.createElement('div');
+            avatarDiv.classList.add('transaction-avatar');
+            if (avatarContent.startsWith('http')) {
+                const img = document.createElement('img');
+                img.src = avatarContent;
+                avatarDiv.appendChild(img);
+            } else {
+                avatarDiv.textContent = avatarContent;
+            }
+
+            const detailsDiv = document.createElement('div');
+            detailsDiv.classList.add('transaction-details');
+
+            const typeSpan = document.createElement('div');
+            typeSpan.classList.add('transaction-type');
+            typeSpan.textContent = type.name;
+
+            const infoDiv = document.createElement('div');
+            infoDiv.classList.add('transaction-info');
+            infoDiv.innerHTML = `${number}<br>TrxID : ${trxId}`;
+
+            detailsDiv.appendChild(typeSpan);
+            detailsDiv.appendChild(infoDiv);
+
+            const amountDateDiv = document.createElement('div');
+            amountDateDiv.classList.add('transaction-amount-date');
+
+            const amountSpan = document.createElement('div');
+            amountSpan.classList.add('transaction-amount', type.class);
+            amountSpan.textContent = `${type.class === 'send' ? '- ৳' : '+ ৳'}${amount.toLocaleString('bn-BD')}`;
+
+            const dateSpan = document.createElement('div');
+            dateSpan.classList.add('transaction-date');
+            dateSpan.textContent = `${time} ${date}`;
+
+            amountDateDiv.appendChild(amountSpan);
+            amountDateDiv.appendChild(dateSpan);
+
+            const arrowIcon = document.createElement('i');
+            arrowIcon.classList.add('fas', 'fa-chevron-right', 'arrow-icon');
+
+            item.appendChild(avatarDiv);
+            item.appendChild(detailsDiv);
+            item.appendChild(amountDateDiv);
+            item.appendChild(arrowIcon);
+
+            return item;
+        }
+
+        const transactionList = document.getElementById('transactionList');
+        const numTransactions = 20; // Number of transactions to generate
+
+        for (let i = 0; i < numTransactions; i++) {
+            const type = transactionTypes[getRandomInt(0, transactionTypes.length - 1)];
+            const number = generateBangladeshiNumber();
+            const trxId = generateRandomTrxID();
+            const amount = getRandomInt(5000, 50000); // 5000+ random amount
+            const date = getRandomDate(30); // Within last 30 days
+            const time = getRandomTime();
+            const avatarContent = avatars[getRandomInt(0, avatars.length - 1)];
+
+            const transactionElement = createTransactionElement(type, number, trxId, amount, date, time, avatarContent);
+            transactionList.appendChild(transactionElement);
+        }
+    </script>
+
+</body>
+</html>
