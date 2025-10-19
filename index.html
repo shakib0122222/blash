@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Free Fire Stats Arena</title>
+    <title>Free Fire Stats Finder</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
@@ -36,7 +36,7 @@
             padding: 0;
             display: flex;
             justify-content: center;
-            align-items: stretch;
+            align-items: center;
             width: 100%;
             overflow-x: hidden;
         }
@@ -44,17 +44,17 @@
         .container {
             background: linear-gradient(135deg, var(--primary-bg), var(--secondary-bg));
             padding: 20px;
-            border-radius: 0;
-            width: 100%;
-            height: 100vh;
-            max-width: 100%;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 400px;
             box-shadow: var(--shadow);
-            border: none;
+            border: 2px solid var(--highlight-color);
             display: flex;
             flex-direction: column;
             align-items: center;
-            margin: 0;
+            height: 90vh;
             overflow-y: auto;
+            position: relative;
         }
 
         .header {
@@ -69,7 +69,7 @@
 
         .header .fire-icon {
             font-size: 2.5em;
-            color: #ff4500; /* Orange Flame */
+            color: #ff4500;
             text-shadow: 0 0 10px rgba(255, 69, 0, 0.7);
         }
 
@@ -78,6 +78,14 @@
             margin: 5px 0;
             font-weight: 700;
             text-shadow: 0 0 5px rgba(30, 144, 255, 0.7);
+        }
+
+        .header h1 span.free-fire {
+            color: var(--text-color); /* White for Free Fire */
+        }
+
+        .header h1 span.stats-finder {
+            color: var(--highlight-color); /* Lime Green for Stats Finder */
         }
 
         .header p {
@@ -246,8 +254,7 @@
             text-shadow: 0 0 3px rgba(30, 144, 255, 0.7);
         }
 
-        .profile-card .player-uid,
-        .profile-card .player-clan {
+        .profile-card .player-info p {
             font-size: 0.9em;
             margin-bottom: 5px;
             color: rgba(255, 255, 255, 0.8);
@@ -316,13 +323,16 @@
 
         .footer {
             text-align: center;
-            margin-top: auto;
             padding: 10px;
             font-size: 0.8em;
             color: var(--text-color);
             width: 90%;
             background: rgba(14, 42, 68, 0.8);
             border-radius: 10px;
+            margin-top: 10px;
+            position: sticky;
+            bottom: 10px;
+            z-index: 10;
         }
 
         .footer span {
@@ -333,6 +343,7 @@
         @media (max-width: 480px) {
             .container {
                 padding: 10px;
+                height: 95vh;
             }
             .header {
                 width: 100%;
@@ -355,6 +366,9 @@
             .profile-card .player-name-section h2 {
                 font-size: 1.3em;
             }
+            .footer {
+                bottom: 5px;
+            }
         }
     </style>
 </head>
@@ -362,7 +376,7 @@
     <div class="container">
         <div class="header">
             <div class="fire-icon">🔥</div>
-            <h1>Free Fire Stats Arena</h1>
+            <h1><span class="free-fire">Free Fire</span> <span class="stats-finder">Stats Finder</span></h1>
             <p>Enter the battlefield for BR & CS stats!</p>
         </div>
 
@@ -403,8 +417,14 @@
                 <div class="player-name-section">
                     <h2 class="player-nickname" id="playerNickname">Player Nickname</h2>
                 </div>
-                <p class="player-uid" id="playerUidDisplay">UID: N/A</p>
-                <p class="player-clan" id="playerClan">Clan: N/A</p>
+                <div class="player-info">
+                    <p class="player-uid" id="playerUidDisplay">UID: N/A</p>
+                    <p class="player-clan" id="playerClan">Clan: N/A</p>
+                    <p id="brRank">BR Rank: N/A</p>
+                    <p id="csRank">CS Rank: N/A</p>
+                    <p id="lastLogin">Last Login: N/A</p>
+                    <p id="signature">Signature: N/A</p>
+                </div>
             </div>
 
             <div class="tabs">
@@ -452,6 +472,10 @@
         const profileNickname = document.getElementById('playerNickname');
         const profileUidDisplay = document.getElementById('playerUidDisplay');
         const profileClan = document.getElementById('playerClan');
+        const brRank = document.getElementById('brRank');
+        const csRank = document.getElementById('csRank');
+        const lastLogin = document.getElementById('lastLogin');
+        const signature = document.getElementById('signature');
 
         const brSoloStatsDiv = document.getElementById('brSoloStats');
         const brDuoStatsDiv = document.getElementById('brDuoStats');
@@ -572,6 +596,10 @@
                     profileNickname.textContent = (playerData.basicinfo && playerData.basicinfo.nickname) || 'N/A';
                     profileUidDisplay.textContent = `UID: ${(playerData.basicinfo && playerData.basicinfo.accountid) || 'N/A'}`;
                     profileClan.textContent = `Clan: ${(playerData.clanbasicinfo && playerData.clanbasicinfo.clanname) || 'N/A'}`;
+                    brRank.textContent = `BR Rank: ${(brStats.data && brStats.data.rank) || 'N/A'}`;
+                    csRank.textContent = `CS Rank: ${(csStats.data && csStats.data.rank) || 'N/A'}`;
+                    lastLogin.textContent = `Last Login: ${(playerData.basicinfo && playerData.basicinfo.lastlogintime) ? new Date(playerData.basicinfo.lastlogintime).toLocaleString() : 'N/A'}`;
+                    signature.textContent = `Signature: ${(playerData.basicinfo && playerData.basicinfo.signature) || 'N/A'}`;
 
                     renderStats(brSoloStatsDiv, (brStats.data && brStats.data.solostats) || {}, 'BR Solo');
                     renderStats(brDuoStatsDiv, (brStats.data && brStats.data.duostats) || {}, 'BR Duo');
@@ -587,13 +615,17 @@
                     profileNickname.textContent = 'Player Nickname';
                     profileUidDisplay.textContent = 'UID: N/A';
                     profileClan.textContent = 'Clan: N/A';
+                    brRank.textContent = 'BR Rank: N/A';
+                    csRank.textContent = 'CS Rank: N/A';
+                    lastLogin.textContent = 'Last Login: N/A';
+                    signature.textContent = 'Signature: N/A';
                     [brSoloStatsDiv, brDuoStatsDiv, brSquadStatsDiv, csRankedStatsDiv].forEach(div => div.innerHTML = '');
                 }
             } catch (error) {
                 console.error('Error fetching player data:', error);
                 errorMessage.textContent = 'Connection lost in the battlefield!';
                 errorMessage.style.display = 'block';
-                [profileAvatarChar, profileLevel, profileNickname, profileUidDisplay, profileClan].forEach(el => el.textContent = el.id.includes('value') ? 'N/A' : (el.id === 'profileAvatarChar' ? '?' : 'N/A'));
+                [profileAvatarChar, profileLevel, profileNickname, profileUidDisplay, profileClan, brRank, csRank, lastLogin, signature].forEach(el => el.textContent = el.id.includes('value') ? 'N/A' : (el.id === 'profileAvatarChar' ? '?' : 'N/A'));
                 [brSoloStatsDiv, brDuoStatsDiv, brSquadStatsDiv, csRankedStatsDiv].forEach(div => div.innerHTML = '');
             }
         });
