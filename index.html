@@ -3,430 +3,549 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Free Fire Stats Finder</title>
+    <title>Free Fire Player Stats Finder | FF</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        /* Base colors from the screenshot for perfect match */
         :root {
-            --primary-bg: #22252c; /* Main background from screenshot */
-            --header-bg: #30353c; /* Header area background */
-            --text-color: #f0f0f0; /* Light text color */
-            --input-bg: #40454c; /* Input field background */
-            --input-border-focus: #1c88d4; /* Blue border on focus for inputs/dropdown */
-            --button-bg: #f96105; /* Orange search button */
-            --button-hover: #e05500; /* Darker orange on hover */
-            --free-fire-text: #ffffff; /* White for 'Free Fire' */
-            --stats-finder-text: #f96105; /* Orange for 'Stats Finder' */
-            --player-card-bg: #3c4048; /* Background for the player profile card */
-            --tab-inactive-bg: #3c4048; /* Inactive tab background */
-            --tab-active-bg: #f96105; /* Active tab background */
-            --footer-text-color: #ffffff; /* Footer text color */
-            --shadow-dark: 0 4px 10px rgba(0, 0, 0, 0.5);
-            --shadow-light: 0 2px 5px rgba(0, 0, 0, 0.3);
-            --highlight-orange: #f96105; /* Orange highlight for stats finder, button, active tab */
-            --header-gradient-start: #30353c;
-            --header-gradient-end: #22252c;
-        }
-
-        /* General styles */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+            --primary-bg: #111827; /* Darker background */
+            --secondary-bg: #1F2937; /* Slightly lighter sections */
+            --accent-orange: #F97316; /* Fire color for branding */
+            --accent-blue: #3B82F6; /* For buttons and active states */
+            --text-color-light: #F9FAFB; /* Light text */
+            --text-color-dark: #D1D5DB; /* Darker text for labels */
+            --input-bg: #374151; /* Input background */
+            --input-border: #4B5563; /* Input border */
+            --border-color: #374151; /* General border/divider */
+            --shadow-color: rgba(0, 0, 0, 0.5);
         }
 
         body {
             font-family: 'Montserrat', sans-serif;
-            background: var(--primary-bg);
-            color: var(--text-color);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start; /* Align to top to better match screenshot scroll behavior */
-            width: 100%;
-            overflow-x: hidden;
-            padding: 20px 0; /* Add some padding on top/bottom for overall container */
-        }
-
-        .container {
-            background: transparent; /* Main container background is body background */
-            padding: 0; /* Remove padding here as content elements have their own */
-            border-radius: 0;
-            width: 90%;
-            max-width: 450px; /* Adjusted max-width to better fit screenshot */
-            box-shadow: none;
+            background-color: var(--primary-bg);
+            color: var(--text-color-light);
+            margin: 0;
+            padding: 0;
             display: flex;
             flex-direction: column;
             align-items: center;
-            /* height: auto; */ /* Let content define height */
-            /* overflow-y: auto; */ /* Enable scrolling if content overflows */
-            position: relative;
+            min-height: 100vh;
+            box-sizing: border-box;
+            background-image: radial-gradient(circle at top left, #2f0119 0%, transparent 50%),
+                              radial-gradient(circle at bottom right, #001f3f 0%, transparent 50%);
+            background-blend-mode: multiply;
+        }
+
+        /* Removed .top-bar section entirely */
+
+        .container {
+            background-color: transparent; /* Main container transparent */
+            padding: 20px; /* Adjusted padding */
+            width: 100%;
+            max-width: 480px; /* Slightly wider to match screenshot */
+            box-sizing: border-box;
+            flex-grow: 1; /* Allow container to grow and push footer down */
+            display: flex;
+            flex-direction: column;
+            gap: 25px; /* Spacing between main sections */
         }
 
         .header {
             text-align: center;
-            margin-bottom: 20px;
-            padding: 20px 15px; /* Adjusted padding to match screenshot */
-            border-radius: 0; /* No border-radius for header */
-            background: var(--header-bg); /* Background matching screenshot */
-            box-shadow: none; /* No shadow on header */
-            width: 100%; /* Full width */
-            position: relative;
-            z-index: 1; /* Ensure header is above other elements for z-index */
-            background: linear-gradient(to right, rgba(0,0,0,0), var(--header-bg), rgba(0,0,0,0)); /* Light gradient effect */
+            /* margin-bottom: 30px; */ /* Removed margin-bottom because of gap in container */
+            padding: 20px;
+            border-radius: 10px;
         }
-
-        .header::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 50%; /* Only on the right side */
-            height: 100%;
-            background: radial-gradient(circle at right top, rgba(255, 255, 255, 0.1) 0%, transparent 70%); /* Light glow effect */
-            z-index: -1;
-        }
-
 
         .header .fire-icon {
-            font-size: 2.5em;
-            color: var(--stats-finder-text); /* Orange color for fire icon */
-            text-shadow: none; /* No text shadow */
+            font-size: 3.5em;
+            color: var(--accent-orange); /* Orange fire icon */
+            margin-bottom: 10px;
         }
 
         .header h1 {
-            font-size: 2.2em; /* Slightly larger for impact */
-            margin: 5px 0;
+            font-size: 2.2em; /* Larger heading */
+            margin: 0;
             font-weight: 700;
-            text-shadow: none; /* No text shadow */
-        }
-
-        .header h1 span.free-fire {
-            color: var(--free-fire-text); /* White for 'Free Fire' */
-        }
-
-        .header h1 span.stats-finder {
-            color: var(--stats-finder-text); /* Orange for 'Stats Finder' */
+            color: var(--text-color-light);
         }
 
         .header p {
-            font-size: 1em; /* Slightly larger for better readability */
-            font-weight: 400; /* Lighter weight for description */
-            color: rgba(255, 255, 255, 0.7); /* Subtler white */
+            font-size: 1em;
+            color: var(--text-color-dark);
+            margin-top: 5px;
         }
 
-        .box-container {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            margin-bottom: 20px;
-            width: 100%; /* Full width within container */
-            padding: 20px; /* Padding for the container around inputs */
-            background: var(--header-bg); /* Use header-bg for this section */
-            border-radius: 10px; /* Rounded corners for the input container */
-            box-shadow: var(--shadow-dark); /* Darker shadow for depth */
+        .form-section {
+            background-color: var(--secondary-bg);
+            border-radius: 15px;
+            padding: 25px;
+            /* margin-bottom: 25px; */ /* Removed margin-bottom because of gap in container */
+            box-shadow: 0 4px 15px var(--shadow-color);
         }
 
         .form-group {
-            background: var(--input-bg); /* Input field background */
-            padding: 10px; /* Reduced padding for a snug fit */
-            border-radius: 5px; /* Slightly rounded corners */
-            box-shadow: var(--shadow-light); /* Lighter shadow for inputs */
-            transition: none; /* No transform effect */
+            margin-bottom: 20px;
+        }
+
+        .form-group:last-of-type {
+            margin-bottom: 0; /* Remove bottom margin for the last form group */
         }
 
         .form-group label {
-            display: none; /* Hide labels as they are placeholders in the screenshot */
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            font-size: 1em;
+            color: var(--text-color-light);
         }
 
         .form-group input[type="text"],
         .form-group select {
             width: 100%;
-            padding: 12px; /* Increased padding inside input for better touch target */
-            background: var(--input-bg);
-            border: 1px solid transparent; /* Transparent border by default */
-            border-radius: 5px;
-            color: var(--text-color);
+            padding: 12px 15px;
+            background-color: var(--input-bg);
+            border: 1px solid var(--input-border);
+            border-radius: 10px; /* More rounded corners */
+            color: var(--text-color-dark); /* Changed to dark for placeholder match */
             font-size: 1em;
-            transition: border-color 0.3s ease, box-shadow 0.3s ease; /* Smooth transition for focus */
-        }
-
-        .form-group select {
-            background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23f96105%22%20d%3D%22M287%20197.352L146.2%2056.638L5.4%20197.352H287z%22%2F%3E%3C%2Fsvg%3E'); /* Orange arrow for dropdown */
-            background-repeat: no-repeat;
-            background-position: right 10px center;
-            background-size: 12px; /* Slightly larger arrow */
-            padding-right: 35px; /* Space for the arrow */
+            box-sizing: border-box;
+            -webkit-appearance: none;
+            -moz-appearance: none;
             appearance: none;
-        }
-
-        .form-group input[type="text"]::placeholder,
-        .form-group select option {
-            color: rgba(255, 255, 255, 0.6); /* Lighter placeholder text */
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
         }
 
         .form-group input[type="text"]:focus,
         .form-group select:focus {
-            border-color: var(--input-border-focus); /* Blue border on focus */
+            border-color: var(--accent-blue);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
             outline: none;
-            box-shadow: 0 0 8px rgba(28, 136, 212, 0.6); /* Blue glow on focus */
+        }
+
+        .form-group select {
+            background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23D1D5DB%22%20d%3D%22M287%20197.352L146.2%2056.638L5.4%20197.352H287z%22%2F%3E%3C%2Fsvg%3E');
+            background-repeat: no-repeat;
+            background-position: right 15px center;
+            background-size: 12px;
+            padding-right: 40px;
+        }
+
+        .form-group select option {
+            background-color: var(--input-bg);
+            color: var(--text-color-light);
+        }
+
+        .form-group input[type="text"]::placeholder {
+            color: #9CA3AF;
         }
 
         button#searchPlayerBtn {
-            width: 100%; /* Full width within container */
-            padding: 15px; /* Larger button padding */
-            background: var(--button-bg);
-            color: var(--text-color);
+            width: 100%;
+            padding: 15px;
+            background-color: var(--accent-orange);
+            color: var(--text-color-light);
             border: none;
-            border-radius: 8px; /* Slightly more rounded button */
-            font-size: 1.2em; /* Larger font size */
+            border-radius: 10px;
+            font-size: 1.1em;
             font-weight: 700;
             cursor: pointer;
-            box-shadow: var(--shadow-dark); /* Darker shadow for button */
-            transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
-            margin-top: -5px; /* Bring button closer to input box */
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 4px 10px rgba(249, 115, 22, 0.4);
+            margin-top: 25px; /* Spacing below the form fields */
         }
 
         button#searchPlayerBtn:hover {
-            background: var(--button-hover);
-            transform: translateY(-2px); /* Slight lift effect */
-            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.7); /* Enhanced shadow on hover */
+            background-color: #e06611;
+            transform: translateY(-2px);
         }
 
-        .error-message {
-            color: var(--highlight-orange); /* Orange for error messages */
+        button#searchPlayerBtn:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 5px rgba(249, 115, 22, 0.4);
+        }
+
+        .footer {
             text-align: center;
-            margin-top: 15px;
-            padding: 10px;
-            background: rgba(249, 97, 5, 0.1); /* Light orange background */
-            border-radius: 5px;
-            width: 100%;
-            display: none;
+            /* margin-top: 30px; */ /* Removed margin-top, container gap handles spacing */
+            font-size: 0.9em;
+            color: var(--text-color-dark);
+            padding: 15px;
+            border-radius: 10px;
+            background-color: var(--secondary-bg);
+            box-shadow: 0 -2px 10px var(--shadow-color);
+            width: 100%; /* Occupy full width within its flex context */
+            max-width: 480px;
+            box-sizing: border-box;
+            /* Removed sticky positioning to make it flow naturally at the bottom */
+        }
+
+        .footer span {
+            color: var(--accent-orange);
+            font-size: 1.3em;
+            vertical-align: middle;
+            margin: 0 2px;
+        }
+
+        .footer a {
+            color: var(--accent-orange);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
         }
 
         #results {
-            margin-top: 25px; /* More space above results */
+            /* margin-top: 30px; */ /* Removed margin-top, container gap handles spacing */
             display: none;
-            width: 100%;
-            padding: 0 20px; /* Match padding of the input box container */
         }
 
+        /* Profile Card */
         .profile-card {
-            background: var(--player-card-bg); /* Darker background for profile card */
-            padding: 20px; /* More padding inside card */
-            border-radius: 10px;
+            background-color: var(--secondary-bg);
+            padding: 25px;
+            border-radius: 15px;
             text-align: center;
-            margin-bottom: 20px;
-            box-shadow: var(--shadow-dark);
-            border: none; /* No border for profile card */
-            animation: fadeIn 0.5s ease-in;
+            margin-bottom: 25px; /* Spacing between profile card and tabs */
+            box-shadow: 0 4px 15px var(--shadow-color);
         }
 
         .profile-card .avatar-container {
-            width: 100px; /* Slightly larger avatar */
-            height: 100px;
+            position: relative;
+            width: 120px;
+            height: 120px;
             border-radius: 50%;
-            background: var(--input-bg);
-            margin: 0 auto 15px; /* More margin below avatar */
+            background: linear-gradient(45deg, #4A0000, #8A0000); /* Reddish gradient for avatar */
+            margin: 0 auto 15px;
             display: flex;
             justify-content: center;
             align-items: center;
-            border: 2px solid var(--highlight-orange); /* Orange border for avatar */
-            position: relative;
-            box-shadow: 0 0 10px rgba(249, 97, 5, 0.5); /* Orange glow for avatar */
+            border: 4px solid var(--accent-orange); /* Orange border */
+            box-shadow: 0 0 0 5px rgba(249, 115, 22, 0.3);
         }
 
-        .profile-card .avatar-container::before {
-            content: '';
-            position: absolute;
-            width: 120%;
-            height: 120%;
-            background: radial-gradient(circle, rgba(249, 97, 5, 0.1) 0%, transparent 70%); /* Fainter orange pulse */
-            border-radius: 50%;
-            animation: pulse 2s infinite;
-        }
-
-        .profile-card .avatar-char {
-            font-size: 3em; /* Larger character */
+        .profile-card .avatar-container .avatar-char {
+            font-size: 3.5em;
             font-weight: 700;
-            color: var(--highlight-orange); /* Orange char color */
-            text-shadow: none; /* No shadow */
+            color: var(--text-color-light);
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
         }
 
         .profile-card .level-badge {
             position: absolute;
-            bottom: -8px; /* Adjusted position */
-            right: -8px; /* Adjusted position */
-            background: var(--highlight-orange);
-            color: var(--text-color);
-            font-size: 0.8em; /* Slightly larger badge */
-            padding: 3px 8px; /* More padding */
-            border-radius: 5px;
-            box-shadow: var(--shadow-light); /* Shadow for badge */
+            bottom: -5px;
+            right: -5px;
+            background-color: var(--accent-blue);
+            color: var(--text-color-light);
+            font-size: 0.85em;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-weight: 600;
+            border: 2px solid var(--secondary-bg);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
         }
 
-        .profile-card .player-name-section h2 {
-            font-size: 1.8em; /* Larger nickname */
+        .profile-card .player-name-section {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
+        }
+
+        .profile-card .player-name-section .rank-icon {
+            font-size: 1.3em;
+            color: #bbb;
+        }
+
+        .profile-card .player-name-section .player-nickname {
+            font-size: 2em;
             font-weight: 700;
-            color: var(--free-fire-text); /* White for nickname */
-            text-shadow: none;
+            margin: 0;
+            color: var(--text-color-light);
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
         }
 
-        .profile-card .player-info p {
+        .profile-card .player-name-section .feather-icon {
+            font-size: 1.3em;
+            color: #bbb;
+        }
+
+        .profile-card .player-uid {
+            font-size: 1em;
+            color: var(--text-color-dark);
+            margin-bottom: 10px;
+        }
+
+        .profile-card .player-clan {
+            font-size: 1.1em;
+            font-weight: 600;
+            color: var(--accent-orange);
+            margin-bottom: 20px;
+        }
+
+        .profile-card .stats-row {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 20px;
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+            padding: 15px 0;
+        }
+
+        .profile-card .stat-item {
+            text-align: center;
+            flex: 1;
+        }
+        .profile-card .stat-item:first-child {
+            border-right: 1px solid var(--border-color);
+        }
+
+        .profile-card .stat-item .stat-value {
+            font-size: 1.6em;
+            font-weight: 700;
+            color: var(--accent-blue);
+            margin-bottom: 2px;
+        }
+
+        .profile-card .stat-item .stat-label {
             font-size: 0.9em;
-            margin-bottom: 5px;
-            color: rgba(255, 255, 255, 0.7); /* Subtler white */
+            color: var(--text-color-dark);
         }
 
+        .profile-card .grid-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px 10px;
+            text-align: left;
+            margin-top: 15px;
+            padding: 0 10px;
+        }
+
+        .profile-card .grid-item {
+            padding: 5px 0;
+            border-bottom: 1px dashed var(--input-border);
+        }
+        .profile-card .grid-item:nth-last-child(1),
+        .profile-card .grid-item:nth-last-child(2) {
+            border-bottom: none;
+        }
+
+        .profile-card .grid-item .label {
+            font-size: 0.9em;
+            color: var(--text-color-dark);
+            margin-bottom: 2px;
+        }
+
+        .profile-card .grid-item .value {
+            font-size: 1.1em;
+            font-weight: 600;
+            color: var(--text-color-light);
+        }
+
+        .profile-card .grid-item:nth-child(2n) { /* Apply text-align: right to the entire even grid item */
+            text-align: right;
+        }
+        .profile-card .grid-item:nth-child(2n) .label {
+            text-align: right; /* Ensure label also aligns right if needed */
+        }
+
+
+        .profile-card .quote {
+            font-style: italic;
+            font-size: 1em;
+            color: #888;
+            margin-top: 25px;
+            padding: 0 10px;
+        }
+
+        /* Tabs for BR/CS */
         .tabs {
             display: flex;
-            background: var(--tab-inactive-bg); /* Inactive tab background */
+            background-color: var(--input-bg);
             border-radius: 10px;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
             overflow: hidden;
-            width: 100%;
-            box-shadow: var(--shadow-dark); /* Shadow for tabs */
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
         }
 
         .tabs button {
             flex: 1;
-            padding: 12px; /* More padding for tab buttons */
-            background: var(--tab-inactive-bg);
-            color: var(--text-color);
+            padding: 14px 0;
+            background-color: transparent;
+            color: var(--text-color-dark);
             border: none;
-            font-size: 1em;
+            font-size: 1.05em;
             font-weight: 600;
             cursor: pointer;
-            transition: background 0.3s ease;
-        }
-
-        .tabs button:hover {
-            background: rgba(249, 97, 5, 0.3); /* Lighter orange hover */
+            transition: all 0.3s ease;
+            border-radius: 0;
+            position: relative;
         }
 
         .tabs button.active {
-            background: var(--tab-active-bg); /* Orange for active tab */
-            color: var(--text-color);
-            box-shadow: 0 0 10px rgba(249, 97, 5, 0.5); /* Glow for active tab */
+            color: var(--text-color-light);
+        }
+
+        .tabs button.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background-color: var(--accent-orange);
+            border-radius: 2px 2px 0 0;
         }
 
         .tab-content {
-            background: var(--player-card-bg); /* Match profile card background */
-            padding: 20px; /* More padding */
-            border-radius: 10px;
-            display: none;
-            box-shadow: var(--shadow-dark);
-            width: 100%;
+            background-color: var(--secondary-bg);
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px var(--shadow-color);
         }
 
-        .tab-content.active {
-            display: block;
+        .mode-section {
+            margin-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 20px;
+        }
+        .mode-section:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
         }
 
         .mode-section h3 {
-            font-size: 1.2em; /* Slightly larger section titles */
-            color: var(--highlight-orange); /* Orange for section titles */
+            font-size: 1.4em;
+            color: var(--accent-orange);
+            margin-top: 0;
             margin-bottom: 15px;
-            text-shadow: none;
-            border-bottom: 1px solid rgba(249, 97, 5, 0.3); /* Subtle orange line */
-            padding-bottom: 5px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .mode-section h3 .icon {
+            font-size: 1.2em;
+        }
+
+        .mode-section h3.no-data {
+            color: var(--text-color-dark);
+            font-size: 1.1em;
+            font-style: italic;
         }
 
         .stats-list .info-item {
             display: flex;
             justify-content: space-between;
-            padding: 10px 12px; /* More padding */
-            margin-bottom: 8px; /* More margin */
-            background: rgba(249, 97, 5, 0.1); /* Light orange background */
-            border-radius: 5px;
-            transition: none; /* No transform */
-            font-size: 0.95em;
+            padding: 10px 0;
+            border-bottom: 1px dashed var(--input-border);
         }
 
-        .stats-list .info-item:hover {
-            background: rgba(249, 97, 5, 0.2); /* Slightly darker orange on hover */
+        .stats-list .info-item:last-child {
+            border-bottom: none;
         }
 
-        .footer {
+        .stats-list .info-item span:first-child {
+            font-weight: 400;
+            color: var(--text-color-dark);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .stats-list .info-item span:last-child {
+            font-weight: 600;
+            text-align: right;
+            color: var(--text-color-light);
+        }
+
+        .loader {
+            border: 4px solid var(--input-border);
+            border-top: 4px solid var(--accent-orange);
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+            display: none;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .error-message {
+            color: var(--accent-orange);
             text-align: center;
-            padding: 15px; /* More padding for footer */
-            font-size: 0.9em;
-            color: var(--footer-text-color); /* White footer text */
-            width: 100%; /* Full width */
-            background: var(--header-bg); /* Match header background */
+            margin-top: 20px;
+            display: none;
+            font-weight: 600;
+            background-color: rgba(249, 115, 22, 0.1);
+            padding: 15px;
             border-radius: 10px;
-            margin-top: 25px; /* More space above footer */
-            box-shadow: var(--shadow-dark);
-        }
-
-        .footer span {
-            color: var(--highlight-orange); /* Orange for the heart icon */
-            font-size: 1em;
+            border: 1px solid var(--accent-orange);
         }
 
         @media (max-width: 480px) {
-            body {
-                padding: 10px 0;
-            }
             .container {
-                width: 95%;
-            }
-            .header {
-                padding: 15px 10px;
+                padding: 15px;
+                gap: 20px;
             }
             .header h1 {
                 font-size: 1.8em;
             }
             .header p {
-                font-size: 0.8em;
-            }
-            .box-container {
-                padding: 15px;
-                gap: 10px;
-            }
-            .form-group input, .form-group select {
                 font-size: 0.9em;
-                padding: 10px;
             }
             button#searchPlayerBtn {
-                font-size: 1.1em;
-                padding: 12px;
+                font-size: 1em;
+                padding: 13px;
+                margin-top: 20px;
             }
-            #results {
-                padding: 0 15px;
+            .form-section {
+                padding: 20px;
+            }
+            .form-group input, .form-group select {
+                padding: 10px 12px;
             }
             .profile-card {
-                padding: 15px;
+                padding: 20px;
             }
-            .profile-card .avatar-container {
-                width: 80px;
-                height: 80px;
+            .profile-card .player-nickname {
+                font-size: 1.7em;
             }
-            .profile-card .avatar-char {
-                font-size: 2.5em;
+            .profile-card .player-uid, .profile-card .player-clan {
+                font-size: 0.95em;
             }
-            .profile-card .player-name-section h2 {
+            .profile-card .stat-item .stat-value {
                 font-size: 1.4em;
             }
+            .profile-card .grid-item .label, .profile-card .grid-item .value {
+                font-size: 0.95em;
+            }
             .tabs button {
-                font-size: 0.9em;
-                padding: 10px;
+                font-size: 0.95em;
+                padding: 12px 0;
             }
             .tab-content {
-                padding: 15px;
+                padding: 20px;
             }
             .mode-section h3 {
-                font-size: 1.1em;
+                font-size: 1.2em;
             }
-            .stats-list .info-item {
-                font-size: 0.9em;
-                padding: 8px 10px;
+            .stats-list .info-item span:first-child, .stats-list .info-item span:last-child {
+                font-size: 0.95em;
             }
             .footer {
-                padding: 12px;
-                font-size: 0.8em;
+                padding: 12px 15px;
             }
         }
     </style>
@@ -435,11 +554,11 @@
     <div class="container">
         <div class="header">
             <div class="fire-icon">🔥</div>
-            <h1><span class="free-fire">Free Fire</span> <span class="stats-finder">Stats Finder</span></h1>
+            <h1>Free Fire Stats Finder</h1>
             <p>Get real-time player stats and personal info for BR & CS!</p>
         </div>
 
-        <div class="box-container">
+        <div class="form-section">
             <div class="form-group">
                 <label for="playerUid">Player UID</label>
                 <input type="text" id="playerUid" placeholder="Enter player UID e.g., 8035061359">
@@ -464,7 +583,9 @@
             </div>
             <button id="searchPlayerBtn">Search Player</button>
         </div>
-        
+
+
+        <div class="loader" id="loader"></div>
         <div class="error-message" id="errorMessage"></div>
 
         <div id="results">
@@ -474,16 +595,44 @@
                     <span class="level-badge" id="profileLevel">Lv. ??</span>
                 </div>
                 <div class="player-name-section">
-                    <h2 class="player-nickname" id="playerNickname">Player Nickname</h2>
+                    <span class="rank-icon" id="profileRankIcon"></span>
+                    <h2 class="player-nickname" id="profileNickname">Player Nickname</h2>
+                    <span class="feather-icon"><i class="fas fa-award"></i></span>
                 </div>
-                <div class="player-info">
-                    <p class="player-uid" id="playerUidDisplay">UID: N/A</p>
-                    <p class="player-clan" id="playerClan">Clan: N/A</p>
-                    <p id="brRank">BR Rank: N/A</p>
-                    <p id="csRank">CS Rank: N/A</p>
-                    <p id="lastLogin">Last Login: N/A</p>
-                    <p id="signature">Signature: N/A</p>
+                <p class="player-uid" id="profileUidDisplay">UID: N/A</p>
+                <p class="player-clan" id="profileClan">Clan: N/A</p>
+
+                <div class="stats-row">
+                    <div class="stat-item">
+                        <div class="stat-value" id="profileLikes">0</div>
+                        <div class="stat-label">Likes</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="profileBadges">0</div>
+                        <div class="stat-label">Badges</div>
+                    </div>
                 </div>
+
+                <div class="grid-info">
+                    <div class="grid-item">
+                        <div class="label">Region</div>
+                        <div class="value" id="profileRegion">N/A</div>
+                    </div>
+                    <div class="grid-item">
+                        <div class="label">BR Rank</div>
+                        <div class="value" id="profileBRRank">N/A</div>
+                    </div>
+                    <div class="grid-item">
+                        <div class="label">CS Rank</div>
+                        <div class="value" id="profileCSRank">N/A</div>
+                    </div>
+                    <div class="grid-item">
+                        <div class="label">Last Login</div>
+                        <div class="value" id="profileLastLogin">N/A</div>
+                    </div>
+                </div>
+
+                <p class="quote" id="profileSignature">"No signature set."</p>
             </div>
 
             <div class="tabs">
@@ -491,32 +640,32 @@
                 <button class="tab-btn" data-gamemode="cs">Clash Squad</button>
             </div>
 
-            <div id="brTabContent" class="tab-content active">
+            <div id="brTabContent" class="tab-content">
                 <div class="mode-section">
-                    <h3>Solo</h3>
+                    <h3 id="brSoloTitle"><span class="icon"><i class="fas fa-user"></i></span> Solo</h3>
                     <div class="stats-list" id="brSoloStats"></div>
                 </div>
                 <div class="mode-section">
-                    <h3>Duo</h3>
+                    <h3><span class="icon"><i class="fas fa-user-friends"></i></span> Duo</h3>
                     <div class="stats-list" id="brDuoStats"></div>
                 </div>
                 <div class="mode-section">
-                    <h3>Squad</h3>
+                    <h3><span class="icon"><i class="fas fa-users"></i></span> Squad</h3>
                     <div class="stats-list" id="brSquadStats"></div>
                 </div>
             </div>
 
-            <div id="csTabContent" class="tab-content">
+            <div id="csTabContent" class="tab-content" style="display: none;">
                 <div class="mode-section">
-                    <h3>Ranked</h3>
+                    <h3 id="csRankedTitle"><span class="icon"><i class="fas fa-trophy"></i></span> Ranked</h3>
                     <div class="stats-list" id="csRankedStats"></div>
                 </div>
             </div>
         </div>
+    </div>
 
-        <div class="footer">
-            Developed <span style="color: var(--highlight-orange);">❤️</span> by SAKIB HOSSAIN
-        </div>
+    <div class="footer">
+        Developed <span>❤️</span> by <a href="#" target="_blank">SHAKIB HOSSAIN</a>
     </div>
 
     <script>
@@ -524,17 +673,22 @@
         const serverSelect = document.getElementById('server');
         const searchPlayerBtn = document.getElementById('searchPlayerBtn');
         const resultsDiv = document.getElementById('results');
+        const loader = document.getElementById('loader');
         const errorMessage = document.getElementById('errorMessage');
 
         const profileAvatarChar = document.getElementById('profileAvatarChar');
         const profileLevel = document.getElementById('profileLevel');
-        const profileNickname = document.getElementById('playerNickname');
-        const profileUidDisplay = document.getElementById('playerUidDisplay');
-        const profileClan = document.getElementById('playerClan');
-        const brRank = document.getElementById('brRank');
-        const csRank = document.getElementById('csRank');
-        const lastLogin = document.getElementById('lastLogin');
-        const signature = document.getElementById('signature');
+        const profileRankIcon = document.getElementById('profileRankIcon');
+        const profileNickname = document.getElementById('profileNickname');
+        const profileUidDisplay = document.getElementById('profileUidDisplay');
+        const profileClan = document.getElementById('profileClan');
+        const profileLikes = document.getElementById('profileLikes');
+        const profileBadges = document.getElementById('profileBadges');
+        const profileRegion = document.getElementById('profileRegion');
+        const profileBRRank = document.getElementById('profileBRRank');
+        const profileCSRank = document.getElementById('profileCSRank');
+        const profileLastLogin = document.getElementById('profileLastLogin');
+        const profileSignature = document.getElementById('profileSignature');
 
         const brSoloStatsDiv = document.getElementById('brSoloStats');
         const brDuoStatsDiv = document.getElementById('brDuoStats');
@@ -543,73 +697,110 @@
 
         const tabButtons = document.querySelectorAll('.tab-btn');
 
-        const BASE_URL = "https://ff-info-gajarbotol.vercel.app/";
+        // Using a relative path if the API is on the same domain or a full URL
+        const BASE_URL = "https://ff-info-gajarbotol.vercel.app/"; 
 
         const emojiMap = {
-            'Matches Played': '🎮',
-            'Wins': '🏆',
-            'Kills': '💀',
-            'Deaths': '💔',
-            'K/D Ratio': '📈',
-            'Headshot Kills': '🎯',
-            'Headshot Rate': '💥',
-            'Damage': '🔥',
-            'Revives': '❤️',
-            'Headshots': '🎯',
-            'Highest Kills': '🏅',
-            'Knockdowns': '👊',
-            'Pick Ups': '🛒',
-            'Survival Time': '⏱️',
-            'Top N Times': '🔝',
-            'Road Kills': '🚗',
-            'Distance Travelled': '🏃'
+            'Matches Played': '<i class="fas fa-gamepad"></i>',
+            'Wins': '<i class="fas fa-trophy"></i>',
+            'Kills': '<i class="fas fa-skull-crossbones"></i>',
+            'Deaths': '<i class="fas fa-heart-broken"></i>',
+            'K/D Ratio': '<i class="fas fa-chart-line"></i>',
+            'Headshot Kills': '<i class="fas fa-bullseye"></i>',
+            'Headshot Rate': '<i class="fas fa-crosshairs"></i>',
+            'Damage': '<i class="fas fa-fire-alt"></i>',
+            'Revives': '<i class="fas fa-plus-circle"></i>',
+            'Headshots': '<i class="fas fa-head-side-mask"></i>',
+            'Highest Kills': '<i class="fas fa-medal"></i>',
+            'Knockdowns': '<i class="fas fa-fist-raised"></i>',
+            'Pick Ups': '<i class="fas fa-shopping-basket"></i>',
+            'Survival Time': '<i class="fas fa-hourglass-half"></i>',
+            'Top N Times': '<i class="fas fa-crown"></i>',
+            'Road Kills': '<i class="fas fa-car-crash"></i>',
+            'Distance Travelled': '<i class="fas fa-shoe-prints"></i>'
         };
 
         function makeLabel(key) {
             let label = key.replace(/([a-z])([A-Z])/g, '$1 $2').replace(/^./, str => str.toUpperCase());
             if (key === 'topntimes') label = 'Top N Times';
             if (key === 'highestkills') label = 'Highest Kills';
-            if (key === 'knockdown') label = 'Knockdowns';
+            if (key === 'knockdown') label = 'Knockdowns'; // Assuming 'knockdown' from API might be different casing
             if (key === 'pickups') label = 'Pick Ups';
             if (key === 'roadkills') label = 'Road Kills';
             if (key === 'distancetravelled') label = 'Distance Travelled';
             if (key === 'headshotkills') label = 'Headshot Kills';
             if (key === 'survivaltime') label = 'Survival Time';
             if (key === 'gamesplayed') label = 'Matches Played';
+            if (key === 'liked') label = 'Likes';
+            if (key === 'badgecnt') label = 'Badges';
+            if (key === 'csrank') label = 'CS Rank';
+            if (key === 'rank') label = 'BR Rank'; // Assuming 'rank' is for BR Rank
+            if (key === 'lastloginat') label = 'Last Login';
+            if (key === 'accountid') label = 'Player ID';
+            if (key === 'region') label = 'Region';
+
             return label;
         }
 
         function createStatItem(label, value) {
-            const emoji = emojiMap[label] || '';
+            const emojiHtml = emojiMap[label] || '';
             const itemDiv = document.createElement('div');
             itemDiv.classList.add('info-item');
-            itemDiv.innerHTML = `<span>${emoji} ${label}</span> <span>${value}</span>`;
+            itemDiv.innerHTML = `<span>${emojiHtml} ${label}</span> <span>${value}</span>`;
             return itemDiv;
         }
 
-        function renderStats(targetDiv, data, gamemode) {
+        function renderStats(targetDiv, data) {
             targetDiv.innerHTML = '';
-            if (!data || Object.keys(data).length === 0 || !data.gamesplayed || data.gamesplayed === 0) {
-                targetDiv.innerHTML = `<h3 style="color: rgba(255, 255, 255, 0.7); font-style: italic; text-align: center;">No matches played in this mode.</h3>`;
+            // Check for actual data presence, not just an empty object from API
+            if (!data || Object.keys(data).length === 0 || !data.gamesplayed || parseInt(data.gamesplayed) === 0) {
+                targetDiv.innerHTML = `<h3 class="no-data">No matches played in this mode.</h3>`;
                 return;
             }
+            
             let stats = { ...data };
-            delete stats.detailedstats;
+            delete stats.detailedstats; // Assuming detailedstats is flattened or not needed directly here
             delete stats.accountid;
-            if (data.detailedstats) stats = { ...stats, ...data.detailedstats };
+
+            // Render common stats first
+            const orderedKeys = [
+                'gamesplayed', 'wins', 'kills', 'deaths', 'headshotkills', 'damage', 'revives', 
+                'survivaltime', 'topntimes', 'highestkills', 'knockdown', 'pickups', 'roadkills', 'distancetravelled'
+            ];
+
+            orderedKeys.forEach(key => {
+                if (stats[key] !== undefined) {
+                    const label = makeLabel(key);
+                    const value = stats[key];
+                    targetDiv.appendChild(createStatItem(label, value));
+                    delete stats[key]; // Remove from stats object once rendered
+                }
+            });
+
+            // Calculate and add K/D Ratio
+            if (data.kills !== undefined && data.deaths !== undefined) {
+                const kills = parseInt(data.kills);
+                const deaths = parseInt(data.deaths);
+                const kdRatio = (deaths > 0) ? (kills / deaths).toFixed(2) : (kills > 0 ? kills.toFixed(2) : '0.00');
+                targetDiv.appendChild(createStatItem('K/D Ratio', kdRatio));
+            }
+
+            // Calculate and add Headshot Rate
+            if (data.headshotkills !== undefined && data.kills !== undefined) {
+                const headshotKills = parseInt(data.headshotkills);
+                const totalKills = parseInt(data.kills);
+                const hsRate = (totalKills > 0) ? ((headshotKills / totalKills) * 100).toFixed(2) + '%' : '0.00%';
+                targetDiv.appendChild(createStatItem('Headshot Rate', hsRate));
+            }
+
+            // Render any remaining stats
             for (let key in stats) {
                 const label = makeLabel(key);
                 let value = stats[key];
-                if (typeof value === 'object' && value !== null) value = JSON.stringify(value);
-                targetDiv.appendChild(createStatItem(label, value));
-            }
-            if (stats.kills !== undefined && stats.deaths !== undefined) {
-                const kdRatio = (stats.deaths > 0) ? (stats.kills / stats.deaths).toFixed(2) : (stats.kills > 0 ? stats.kills : 0);
-                targetDiv.appendChild(createStatItem('K/D Ratio', kdRatio));
-            }
-            if (stats.headshotkills !== undefined && stats.kills !== undefined) {
-                const hsRate = (stats.kills > 0) ? ((stats.headshotkills / stats.kills) * 100).toFixed(2) + '%' : '0.00%';
-                targetDiv.appendChild(createStatItem('Headshot Rate', hsRate));
+                if (typeof value === 'object' && value !== null) value = JSON.stringify(value); // Fallback for unexpected objects
+                if (label !== 'Kills' && label !== 'Deaths' && label !== 'Headshot Kills') { // Avoid duplicating if already processed
+                    targetDiv.appendChild(createStatItem(label, value));
+                }
             }
         }
 
@@ -617,8 +808,14 @@
             button.addEventListener('click', () => {
                 tabButtons.forEach(btn => btn.classList.remove('active'));
                 button.classList.add('active');
-                document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
-                document.getElementById(`${button.dataset.gamemode}TabContent`).classList.add('active');
+                const gamemode = button.dataset.gamemode;
+                if (gamemode === 'br') {
+                    document.getElementById('brTabContent').style.display = 'block';
+                    document.getElementById('csTabContent').style.display = 'none';
+                } else if (gamemode === 'cs') {
+                    document.getElementById('brTabContent').style.display = 'none';
+                    document.getElementById('csTabContent').style.display = 'block';
+                }
             });
         });
 
@@ -630,64 +827,94 @@
             errorMessage.style.display = 'none';
 
             if (!playerUid) {
-                errorMessage.textContent = 'Enter a Player UID to battle!';
+                errorMessage.textContent = 'Please enter a Player UID.';
                 errorMessage.style.display = 'block';
                 return;
             }
 
+            loader.style.display = 'block';
+
             try {
-                const [personalResponse, brResponse, csResponse] = await Promise.all([
-                    fetch(`${BASE_URL}get_player_personal_show?server=${server}&uid=${playerUid}`),
-                    fetch(`${BASE_URL}get_player_stats?server=${server}&uid=${playerUid}&matchmode=RANKED&gamemode=br`),
-                    fetch(`${BASE_URL}get_player_stats?server=${server}&uid=${playerUid}&matchmode=RANKED&gamemode=cs`)
-                ]);
+                // Fetch personal info
+                const personalInfoResponse = await fetch(`${BASE_URL}get_player_personal_show?server=${server}&uid=${playerUid}`);
+                const personalInfoData = await personalInfoResponse.json();
 
-                const [data, brStats, csStats] = await Promise.all([
-                    personalResponse.json(),
-                    brResponse.json(),
-                    csResponse.json()
-                ]);
-
-                if ((data.status === true || data.status === 'success') && data.data) {
-                    const playerData = data.data;
-                    profileAvatarChar.textContent = (playerData.basicinfo && playerData.basicinfo.nickname) ? playerData.basicinfo.nickname.charAt(0).toUpperCase() : '?';
-                    profileLevel.textContent = `Lv. ${(playerData.basicinfo && playerData.basicinfo.level) || '??'}`;
-                    profileNickname.textContent = (playerData.basicinfo && playerData.basicinfo.nickname) || 'N/A';
-                    profileUidDisplay.textContent = `UID: ${(playerData.basicinfo && playerData.basicinfo.accountid) || 'N/A'}`;
-                    profileClan.textContent = `Clan: ${(playerData.clanbasicinfo && playerData.clanbasicinfo.clanname) || 'N/A'}`;
-                    brRank.textContent = `BR Rank: ${(brStats.data && brStats.data.rank) || 'N/A'}`;
-                    csRank.textContent = `CS Rank: ${(csStats.data && csStats.data.rank) || 'N/A'}`;
-                    lastLogin.textContent = `Last Login: ${(playerData.basicinfo && playerData.basicinfo.lastlogintime) ? new Date(playerData.basicinfo.lastlogintime).toLocaleString() : 'N/A'}`;
-                    signature.textContent = `Signature: ${(playerData.basicinfo && playerData.basicinfo.signature) || 'N/A'}`;
-
-                    renderStats(brSoloStatsDiv, (brStats.data && brStats.data.solostats) || {}, 'BR Solo');
-                    renderStats(brDuoStatsDiv, (brStats.data && brStats.data.duostats) || {}, 'BR Duo');
-                    renderStats(brSquadStatsDiv, (brStats.data && brStats.data.quadstats) || {}, 'BR Squad');
-                    renderStats(csRankedStatsDiv, (csStats.data && csStats.data) || {}, 'CS Ranked');
-
-                    resultsDiv.style.display = 'block';
-                } else {
-                    errorMessage.textContent = 'Player not found in the arena!';
+                if (!(personalInfoData.status === true || personalInfoData.status === 'success') || !personalInfoData.data) {
+                    errorMessage.textContent = personalInfoData.message || 'Failed to fetch player personal data. Please check the UID or server.';
                     errorMessage.style.display = 'block';
-                    profileAvatarChar.textContent = '?';
-                    profileLevel.textContent = 'Lv. ??';
-                    profileNickname.textContent = 'Player Nickname';
-                    profileUidDisplay.textContent = 'UID: N/A';
-                    profileClan.textContent = 'Clan: N/A';
-                    brRank.textContent = 'BR Rank: N/A';
-                    csRank.textContent = 'CS Rank: N/A';
-                    lastLogin.textContent = 'Last Login: N/A';
-                    signature.textContent = 'N/A';
-                    [brSoloStatsDiv, brDuoStatsDiv, brSquadStatsDiv, csRankedStatsDiv].forEach(div => div.innerHTML = '');
+                    resetProfileAndStats();
+                    return;
                 }
+
+                const playerData = personalInfoData.data;
+                const basicInfo = playerData.basicinfo || {};
+                const socialInfo = playerData.socialinfo || {};
+                const clanBasicInfo = playerData.clanbasicinfo || {};
+
+                profileAvatarChar.textContent = (basicInfo.nickname) ? basicInfo.nickname.charAt(0).toUpperCase() : '?';
+                profileLevel.textContent = `Lv. ${basicInfo.level || '??'}`;
+                profileNickname.textContent = basicInfo.nickname || 'N/A';
+                profileUidDisplay.textContent = `UID: ${basicInfo.accountid || 'N/A'}`;
+                profileClan.textContent = `Clan: ${clanBasicInfo.clanname || 'N/A'}`;
+                
+                profileLikes.textContent = basicInfo.liked !== undefined ? basicInfo.liked : '0';
+                profileBadges.textContent = basicInfo.badgecnt !== undefined ? basicInfo.badgecnt : '0';
+                profileBRRank.textContent = basicInfo.rank !== undefined ? basicInfo.rank : 'N/A';
+                profileCSRank.textContent = basicInfo.csrank !== undefined ? basicInfo.csrank : 'N/A';
+                profileLastLogin.textContent = basicInfo.lastloginat ? new Date(basicInfo.lastloginat * 1000).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) : 'N/A';
+                profileSignature.textContent = socialInfo.signature ? `"${socialInfo.signature}"` : '"No signature set."';
+                profileRegion.textContent = basicInfo.region || 'N/A';
+                profileRankIcon.textContent = basicInfo.rank ? basicInfo.rank : ''; // Display rank text if available
+
+                // Fetch BR stats
+                const brResponse = await fetch(`${BASE_URL}get_player_stats?server=${server}&uid=${playerUid}&matchmode=RANKED&gamemode=br`);
+                const brStatsData = await brResponse.json();
+                const brStats = (brStatsData.status === true || brStatsData.status === 'success') ? (brStatsData.data || {}) : {};
+
+                renderStats(brSoloStatsDiv, brStats.solostats || {});
+                renderStats(brDuoStatsDiv, brStats.duostats || {});
+                renderStats(brSquadStatsDiv, brStats.quadstats || {});
+
+                // Fetch CS stats
+                const csResponse = await fetch(`${BASE_URL}get_player_stats?server=${server}&uid=${playerUid}&matchmode=RANKED&gamemode=cs`);
+                const csStatsData = await csResponse.json();
+                const csStats = (csStatsData.status === true || csStatsData.status === 'success') ? (csStatsData.data || {}) : {};
+                
+                renderStats(csRankedStatsDiv, csStats.rankedstats || {}); // Assuming CS stats are directly under 'data' or 'rankedstats'
+
+
+                resultsDiv.style.display = 'block';
+                tabButtons[0].click(); // Activate BR tab by default
+
             } catch (error) {
                 console.error('Error fetching player data:', error);
-                errorMessage.textContent = 'Connection lost in the battlefield!';
+                errorMessage.textContent = 'Failed to fetch player data. Please check the UID, server, or try again later.';
                 errorMessage.style.display = 'block';
-                [profileAvatarChar, profileLevel, profileNickname, profileUidDisplay, profileClan, brRank, csRank, lastLogin, signature].forEach(el => el.textContent = el.id.includes('value') ? 'N/A' : (el.id === 'profileAvatarChar' ? '?' : 'N/A'));
-                [brSoloStatsDiv, brDuoStatsDiv, brSquadStatsDiv, csRankedStatsDiv].forEach(div => div.innerHTML = '');
+                resetProfileAndStats();
+            } finally {
+                loader.style.display = 'none';
             }
         });
+
+        function resetProfileAndStats() {
+            profileAvatarChar.textContent = '?';
+            profileLevel.textContent = 'Lv. ??';
+            profileNickname.textContent = 'Player Nickname';
+            profileUidDisplay.textContent = 'UID: N/A';
+            profileClan.textContent = 'Clan: N/A';
+            profileLikes.textContent = '0';
+            profileBadges.textContent = '0';
+            profileRegion.textContent = 'N/A';
+            profileBRRank.textContent = 'N/A';
+            profileCSRank.textContent = 'N/A';
+            profileLastLogin.textContent = 'N/A';
+            profileSignature.textContent = '"No signature set."';
+            profileRankIcon.textContent = '';
+            [brSoloStatsDiv, brDuoStatsDiv, brSquadStatsDiv, csRankedStatsDiv].forEach(div => div.innerHTML = '');
+        }
+
+        // Initialize with default values
+        resetProfileAndStats();
     </script>
 </body>
 </html>
