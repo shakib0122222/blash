@@ -3,441 +3,600 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>বিকাশ লেনদেন</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <title>Free Fire Stats Arena</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600&display=swap');
+        :root {
+            --primary-bg: #0a1c2e; /* Deep Blue */
+            --secondary-bg: #0e2a44; /* Darker Blue */
+            --accent-color: #1e90ff; /* Dodger Blue */
+            --highlight-color: #32cd32; /* Lime Green */
+            --text-color: #ffffff; /* Pure White */
+            --input-bg: #1a3550; /* Metallic Blue */
+            --input-border: #32cd32; /* Lime Green Border */
+            --button-bg: #32cd32; /* Lime Green Button */
+            --button-hover: #228b22; /* Forest Green */
+            --shadow: 0 6px 20px rgba(0, 0, 0, 0.8);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
         body {
-            font-family: 'Noto Sans Bengali', sans-serif;
+            font-family: 'Montserrat', sans-serif;
+            background: var(--primary-bg);
+            color: var(--text-color);
+            min-height: 100vh;
             margin: 0;
-            background-color: #f0f2f5;
-            color: #333;
-            -webkit-touch-callout: none;
-            -webkit-user-select: none;
-            -khtml-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: stretch;
+            width: 100%;
+            overflow-x: hidden;
+        }
+
+        .container {
+            background: linear-gradient(135deg, var(--primary-bg), var(--secondary-bg));
+            padding: 20px;
+            border-radius: 0;
+            width: 100%;
+            height: 100vh;
+            max-width: 100%;
+            box-shadow: var(--shadow);
+            border: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0;
+            overflow-y: auto;
         }
 
         .header {
-            background-color: #D60057;
-            color: white;
-            padding: 15px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            margin-bottom: 20px;
+            padding: 15px;
+            border-radius: 10px;
+            background: var(--accent-color);
+            box-shadow: 0 4px 15px rgba(30, 144, 255, 0.5);
+            width: 90%;
         }
 
-        .header-left {
-            display: flex;
-            align-items: center;
-            font-size: 18px;
+        .header .fire-icon {
+            font-size: 2.5em;
+            color: #ff4500; /* Orange Flame */
+            text-shadow: 0 0 10px rgba(255, 69, 0, 0.7);
+        }
+
+        .header h1 {
+            font-size: 1.8em;
+            margin: 5px 0;
+            font-weight: 700;
+            text-shadow: 0 0 5px rgba(30, 144, 255, 0.7);
+        }
+
+        .header p {
+            font-size: 0.9em;
             font-weight: 600;
         }
 
-        .header-left i {
-            margin-right: 10px;
-            font-size: 22px;
-        }
-
-        .header-right {
-            font-size: 24px;
-        }
-
-        .nav-tabs {
+        .box-container {
             display: flex;
-            background-color: white;
-            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-            border-bottom: 1px solid #eee;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 20px;
+            width: 90%;
         }
 
-        .nav-tab {
-            flex: 1;
-            text-align: center;
-            padding: 15px 0;
-            font-weight: 500;
-            color: #666;
-            cursor: pointer;
-            position: relative;
+        .form-group {
+            background: var(--input-bg);
+            padding: 12px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+            transition: transform 0.3s ease;
         }
 
-        .nav-tab.active {
-            color: #D60057;
+        .form-group:hover {
+            transform: translateY(-5px);
         }
 
-        .nav-tab.active::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background-color: #D60057;
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            font-size: 0.9em;
+            color: var(--highlight-color);
+            text-shadow: 0 0 2px rgba(50, 205, 50, 0.5);
         }
 
-        .search-filter-bar {
-            display: flex;
-            padding: 15px 15px;
-            background-color: #f0f2f5;
-            border-bottom: 1px solid #ddd;
-        }
-
-        .search-input-container {
-            flex: 1;
-            position: relative;
-            margin-right: 10px;
-        }
-
-        .search-input-container i {
-            position: absolute;
-            left: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #888;
-        }
-
-        .search-input {
+        .form-group input[type="text"],
+        .form-group select {
             width: 100%;
-            padding: 12px 12px 12px 45px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            font-size: 15px;
-            box-sizing: border-box;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid var(--input-border);
+            border-radius: 5px;
+            color: var(--text-color);
+            font-size: 0.9em;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group select {
+            background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23ffffff%22%20d%3D%22M287%20197.352L146.2%2056.638L5.4%20197.352H287z%22%2F%3E%3C%2Fsvg%3E');
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+            background-size: 10px;
+            padding-right: 30px;
+            appearance: none;
+        }
+
+        .form-group input[type="text"]:focus,
+        .form-group select:focus {
+            border-color: var(--accent-color);
             outline: none;
-            background-color: white;
         }
 
-        .filter-button {
-            background-color: white;
-            border: 1px solid #ddd;
+        button#searchPlayerBtn {
+            width: 90%;
+            padding: 12px;
+            background: var(--button-bg);
+            color: var(--text-color);
+            border: none;
             border-radius: 8px;
-            padding: 12px 18px;
-            font-size: 15px;
-            color: #D60057;
-            display: flex;
-            align-items: center;
+            font-size: 1.1em;
+            font-weight: 700;
             cursor: pointer;
-            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 4px 15px rgba(50, 205, 50, 0.6);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
-        .filter-button i {
-            margin-right: 8px;
-            font-size: 18px;
+        button#searchPlayerBtn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 25px rgba(50, 205, 50, 0.8);
         }
 
-        .transaction-header {
-            padding: 10px 20px;
-            font-size: 14px;
-            color: #777;
-            background-color: #f0f2f5;
-            border-bottom: 1px solid #eee;
+        .error-message {
+            color: var(--highlight-color);
+            text-align: center;
+            margin-top: 10px;
+            padding: 10px;
+            background: rgba(50, 205, 50, 0.1);
+            border-radius: 5px;
+            width: 90%;
+            display: none;
         }
 
-        .transaction-list {
-            background-color: white;
-            padding-bottom: 80px; /* Space for the bottom nav */
+        #results {
+            margin-top: 20px;
+            display: none;
+            width: 90%;
         }
 
-        .transaction-item {
-            display: flex;
-            align-items: center;
-            padding: 15px 20px;
-            border-bottom: 1px solid #eee;
-            cursor: pointer;
-            transition: background-color 0.2s ease;
+        .profile-card {
+            background: linear-gradient(135deg, var(--secondary-bg), #1e3a8a);
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 15px;
+            box-shadow: var(--shadow);
+            border: 2px solid var(--highlight-color);
+            animation: fadeIn 0.5s ease-in;
         }
 
-        .transaction-item:hover {
-            background-color: #f9f9f9;
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
 
-        .transaction-item:last-child {
-            border-bottom: none;
-        }
-
-        .transaction-avatar {
-            width: 50px;
-            height: 50px;
+        .profile-card .avatar-container {
+            width: 90px;
+            height: 90px;
             border-radius: 50%;
-            background-color: #f2f2f2;
+            background: var(--input-bg);
+            margin: 0 auto 10px;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 22px;
-            font-weight: 500;
-            color: #666;
-            margin-right: 15px;
-            flex-shrink: 0;
-            overflow: hidden; /* For image avatars */
+            border: 2px solid var(--highlight-color);
+            position: relative;
         }
 
-        .transaction-avatar img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
+        .profile-card .avatar-container::before {
+            content: '';
+            position: absolute;
+            width: 120%;
+            height: 120%;
+            background: radial-gradient(circle, rgba(50, 205, 50, 0.2) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
         }
 
-        .transaction-details {
-            flex-grow: 1;
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
         }
 
-        .transaction-type {
-            font-weight: 500;
-            font-size: 16px;
-            color: #333;
+        .profile-card .avatar-char {
+            font-size: 2.2em;
+            font-weight: 700;
+            text-shadow: 0 0 5px rgba(50, 205, 50, 0.7);
         }
 
-        .transaction-info {
-            font-size: 14px;
-            color: #666;
-            margin-top: 2px;
+        .profile-card .level-badge {
+            position: absolute;
+            bottom: -5px;
+            right: -5px;
+            background: var(--highlight-color);
+            color: var(--text-color);
+            font-size: 0.7em;
+            padding: 2px 6px;
+            border-radius: 5px;
         }
 
-        .transaction-amount-date {
-            text-align: right;
-            margin-left: 10px;
-            flex-shrink: 0;
+        .profile-card .player-name-section h2 {
+            font-size: 1.5em;
+            font-weight: 700;
+            color: var(--accent-color);
+            text-shadow: 0 0 3px rgba(30, 144, 255, 0.7);
         }
 
-        .transaction-amount {
-            font-weight: 600;
-            font-size: 16px;
-        }
-
-        .transaction-amount.send {
-            color: #D60057;
-        }
-
-        .transaction-amount.receive {
-            color: #008000; /* Example for received money */
-        }
-
-        .transaction-date {
-            font-size: 13px;
-            color: #888;
-            margin-top: 2px;
-        }
-
-        .transaction-item .arrow-icon {
-            margin-left: 15px;
-            color: #bbb;
-            font-size: 18px;
-        }
-
-        .bottom-nav {
-            display: flex;
-            justify-content: space-around;
-            background-color: white;
-            border-top: 1px solid #eee;
-            padding: 8px 0;
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.05);
-        }
-
-        .nav-item {
-            text-align: center;
-            color: #777;
-            font-size: 12px;
-            cursor: pointer;
-            padding: 5px 0;
-        }
-
-        .nav-item.active {
-            color: #D60057;
-        }
-
-        .nav-item i {
-            font-size: 22px;
+        .profile-card .player-uid,
+        .profile-card .player-clan {
+            font-size: 0.9em;
             margin-bottom: 5px;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .tabs {
+            display: flex;
+            background: var(--secondary-bg);
+            border-radius: 10px;
+            margin-bottom: 15px;
+            overflow: hidden;
+            width: 100%;
+        }
+
+        .tabs button {
+            flex: 1;
+            padding: 10px;
+            background: rgba(14, 42, 68, 0.8);
+            color: var(--text-color);
+            border: none;
+            font-size: 0.9em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .tabs button:hover {
+            background: rgba(50, 205, 50, 0.2);
+        }
+
+        .tabs button.active {
+            background: var(--highlight-color);
+        }
+
+        .tab-content {
+            background: var(--secondary-bg);
+            padding: 15px;
+            border-radius: 10px;
+            display: none;
+        }
+
+        .tab-content.active {
             display: block;
+        }
+
+        .mode-section h3 {
+            font-size: 1.1em;
+            color: var(--accent-color);
+            margin-bottom: 10px;
+            text-shadow: 0 0 5px rgba(30, 144, 255, 0.5);
+        }
+
+        .stats-list .info-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px;
+            margin-bottom: 5px;
+            background: rgba(50, 205, 50, 0.1);
+            border-radius: 5px;
+            transition: transform 0.2s ease;
+        }
+
+        .stats-list .info-item:hover {
+            transform: translateX(5px);
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: auto;
+            padding: 10px;
+            font-size: 0.8em;
+            color: var(--text-color);
+            width: 90%;
+            background: rgba(14, 42, 68, 0.8);
+            border-radius: 10px;
+        }
+
+        .footer span {
+            color: var(--highlight-color);
+            font-size: 1em;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 10px;
+            }
+            .header {
+                width: 100%;
+            }
+            .box-container, button#searchPlayerBtn, .error-message, #results {
+                width: 100%;
+            }
+            .header h1 {
+                font-size: 1.5em;
+            }
+            .header p {
+                font-size: 0.8em;
+            }
+            .form-group input, .form-group select {
+                font-size: 0.85em;
+            }
+            button#searchPlayerBtn {
+                font-size: 1em;
+            }
+            .profile-card .player-name-section h2 {
+                font-size: 1.3em;
+            }
         }
     </style>
 </head>
 <body>
-
-    <div class="header">
-        <div class="header-left">
-            <i class="fas fa-arrow-left"></i>
-            <span>ইনবক্স</span>
+    <div class="container">
+        <div class="header">
+            <div class="fire-icon">🔥</div>
+            <h1>Free Fire Stats Arena</h1>
+            <p>Enter the battlefield for BR & CS stats!</p>
         </div>
-        <div class="header-right">
-            <i class="fas fa-comment-dots"></i>
-        </div>
-    </div>
 
-    <div class="nav-tabs">
-        <div class="nav-tab active">লেনদেনসমূহ</div>
-        <div class="nav-tab">নোটিফিকেশন</div>
-    </div>
-
-    <div class="search-filter-bar">
-        <div class="search-input-container">
-            <i class="fas fa-search"></i>
-            <input type="text" class="search-input" placeholder="TrxID বা নাম্বারের দিয়ে খুঁজুন">
+        <div class="box-container">
+            <div class="form-group">
+                <label for="playerUid">Player UID</label>
+                <input type="text" id="playerUid" placeholder="Enter player UID e.g., 8035061359">
+            </div>
+            <div class="form-group">
+                <label for="server">Server</label>
+                <select id="server">
+                    <option value="BD">BD</option>
+                    <option value="IND">IND</option>
+                    <option value="SG">SG</option>
+                    <option value="RU">RU</option>
+                    <option value="ID">ID</option>
+                    <option value="TW">TW</option>
+                    <option value="US">US</option>
+                    <option value="VN">VN</option>
+                    <option value="TH">TH</option>
+                    <option value="ME">ME</option>
+                    <option value="PK">PK</option>
+                    <option value="CIS">CIS</option>
+                    <option value="BR">BR</option>
+                </select>
+            </div>
         </div>
-        <button class="filter-button">
-            <i class="fas fa-filter"></i>
-            ফিল্টার
-        </button>
-    </div>
 
-    <div class="transaction-header">
-        গত ৩০ দিনের লেনদেন
-    </div>
+        <button id="searchPlayerBtn">Search Player</button>
+        <div class="error-message" id="errorMessage"></div>
 
-    <div class="transaction-list" id="transactionList">
-        <!-- Transactions will be inserted here by JavaScript -->
-    </div>
+        <div id="results">
+            <div class="profile-card" id="playerProfileCard">
+                <div class="avatar-container">
+                    <span class="avatar-char" id="profileAvatarChar">?</span>
+                    <span class="level-badge" id="profileLevel">Lv. ??</span>
+                </div>
+                <div class="player-name-section">
+                    <h2 class="player-nickname" id="playerNickname">Player Nickname</h2>
+                </div>
+                <p class="player-uid" id="playerUidDisplay">UID: N/A</p>
+                <p class="player-clan" id="playerClan">Clan: N/A</p>
+            </div>
 
-    <div class="bottom-nav">
-        <div class="nav-item">
-            <i class="fas fa-home"></i>
-            <span>হোম</span>
+            <div class="tabs">
+                <button class="tab-btn active" data-gamemode="br">Battle Royale</button>
+                <button class="tab-btn" data-gamemode="cs">Clash Squad</button>
+            </div>
+
+            <div id="brTabContent" class="tab-content active">
+                <div class="mode-section">
+                    <h3>Solo</h3>
+                    <div class="stats-list" id="brSoloStats"></div>
+                </div>
+                <div class="mode-section">
+                    <h3>Duo</h3>
+                    <div class="stats-list" id="brDuoStats"></div>
+                </div>
+                <div class="mode-section">
+                    <h3>Squad</h3>
+                    <div class="stats-list" id="brSquadStats"></div>
+                </div>
+            </div>
+
+            <div id="csTabContent" class="tab-content">
+                <div class="mode-section">
+                    <h3>Ranked</h3>
+                    <div class="stats-list" id="csRankedStats"></div>
+                </div>
+            </div>
         </div>
-        <div class="nav-item">
-            <i class="fas fa-qrcode"></i>
-            <span>QR স্ক্যান</span>
-        </div>
-        <div class="nav-item">
-            <i class="fas fa-search"></i>
-            <span>সার্চ</span>
-        </div>
-        <div class="nav-item active">
-            <i class="fas fa-comment-dots"></i>
-            <span>ইনবক্স</span>
+
+        <div class="footer">
+            Developed <span>❤️</span> by SAKIB HOSSAIN
         </div>
     </div>
 
     <script>
-        function getRandomInt(min, max) {
-            return Math.floor(Math.random() * (max - min + 1)) + min;
+        const playerUidInput = document.getElementById('playerUid');
+        const serverSelect = document.getElementById('server');
+        const searchPlayerBtn = document.getElementById('searchPlayerBtn');
+        const resultsDiv = document.getElementById('results');
+        const errorMessage = document.getElementById('errorMessage');
+
+        const profileAvatarChar = document.getElementById('profileAvatarChar');
+        const profileLevel = document.getElementById('profileLevel');
+        const profileNickname = document.getElementById('playerNickname');
+        const profileUidDisplay = document.getElementById('playerUidDisplay');
+        const profileClan = document.getElementById('playerClan');
+
+        const brSoloStatsDiv = document.getElementById('brSoloStats');
+        const brDuoStatsDiv = document.getElementById('brDuoStats');
+        const brSquadStatsDiv = document.getElementById('brSquadStats');
+        const csRankedStatsDiv = document.getElementById('csRankedStats');
+
+        const tabButtons = document.querySelectorAll('.tab-btn');
+
+        const BASE_URL = "https://ff-info-gajarbotol.vercel.app/";
+
+        const emojiMap = {
+            'Matches Played': '🎮',
+            'Wins': '🏆',
+            'Kills': '💀',
+            'Deaths': '💔',
+            'K/D Ratio': '📈',
+            'Headshot Kills': '🎯',
+            'Headshot Rate': '💥',
+            'Damage': '🔥',
+            'Revives': '❤️',
+            'Headshots': '🎯',
+            'Highest Kills': '🏅',
+            'Knockdowns': '👊',
+            'Pick Ups': '🛒',
+            'Survival Time': '⏱️',
+            'Top N Times': '🔝',
+            'Road Kills': '🚗',
+            'Distance Travelled': '🏃'
+        };
+
+        function makeLabel(key) {
+            let label = key.replace(/([a-z])([A-Z])/g, '$1 $2').replace(/^./, str => str.toUpperCase());
+            if (key === 'topntimes') label = 'Top N Times';
+            if (key === 'highestkills') label = 'Highest Kills';
+            if (key === 'knockdown') label = 'Knockdowns';
+            if (key === 'pickups') label = 'Pick Ups';
+            if (key === 'roadkills') label = 'Road Kills';
+            if (key === 'distancetravelled') label = 'Distance Travelled';
+            if (key === 'headshotkills') label = 'Headshot Kills';
+            if (key === 'survivaltime') label = 'Survival Time';
+            if (key === 'gamesplayed') label = 'Matches Played';
+            return label;
         }
 
-        function generateBangladeshiNumber() {
-            const prefixes = ['017', '018', '019', '016', '015', '013', '014'];
-            const prefix = prefixes[getRandomInt(0, prefixes.length - 1)];
-            let suffix = '';
-            for (let i = 0; i < 8; i++) {
-                suffix += getRandomInt(0, 9);
+        function createStatItem(label, value) {
+            const emoji = emojiMap[label] || '';
+            const itemDiv = document.createElement('div');
+            itemDiv.classList.add('info-item');
+            itemDiv.innerHTML = `<span>${emoji} ${label}</span> <span>${value}</span>`;
+            return itemDiv;
+        }
+
+        function renderStats(targetDiv, data, gamemode) {
+            targetDiv.innerHTML = '';
+            if (!data || Object.keys(data).length === 0 || !data.gamesplayed || data.gamesplayed === 0) {
+                targetDiv.innerHTML = `<h3 style="color: var(--text-color); font-style: italic;">No matches played in this mode.</h3>`;
+                return;
             }
-            return prefix + suffix;
-        }
-
-        function generateRandomTrxID() {
-            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-            let trxId = '';
-            for (let i = 0; i < 10; i++) {
-                trxId += chars.charAt(Math.floor(Math.random() * chars.length));
+            let stats = { ...data };
+            delete stats.detailedstats;
+            delete stats.accountid;
+            if (data.detailedstats) stats = { ...stats, ...data.detailedstats };
+            for (let key in stats) {
+                const label = makeLabel(key);
+                let value = stats[key];
+                if (typeof value === 'object' && value !== null) value = JSON.stringify(value);
+                targetDiv.appendChild(createStatItem(label, value));
             }
-            return trxId;
+            if (stats.kills !== undefined && stats.deaths !== undefined) {
+                const kdRatio = (stats.deaths > 0) ? (stats.kills / stats.deaths).toFixed(2) : (stats.kills > 0 ? stats.kills : 0);
+                targetDiv.appendChild(createStatItem('K/D Ratio', kdRatio));
+            }
+            if (stats.headshotkills !== undefined && stats.kills !== undefined) {
+                const hsRate = (stats.kills > 0) ? ((stats.headshotkills / stats.kills) * 100).toFixed(2) + '%' : '0.00%';
+                targetDiv.appendChild(createStatItem('Headshot Rate', hsRate));
+            }
         }
 
-        function getRandomDate(daysAgo) {
-            const now = new Date();
-            now.setDate(now.getDate() - getRandomInt(0, daysAgo));
-            const day = String(now.getDate()).padStart(2, '0');
-            const month = String(now.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed
-            return `${day}/${month}`;
-        }
+        tabButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                tabButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+                document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+                document.getElementById(`${button.dataset.gamemode}TabContent`).classList.add('active');
+            });
+        });
 
-        function getRandomTime() {
-            const hour = String(getRandomInt(0, 23)).padStart(2, '0');
-            const minute = String(getRandomInt(0, 59)).padStart(2, '0');
-            return `${hour}:${minute}`;
-        }
+        searchPlayerBtn.addEventListener('click', async () => {
+            const playerUid = playerUidInput.value.trim();
+            const server = serverSelect.value;
 
-        const transactionTypes = [
-            { name: "সেন্ড মানি", class: "send" },
-            { name: "মোবাইল রিচার্জ", class: "send" },
-            { name: "ক্যাশ আউট", class: "send" },
-            { name: "পেমেন্ট", class: "send" },
-            { name: "রিসিভ মানি", class: "receive" } // Added receive type for variation
-        ];
+            resultsDiv.style.display = 'none';
+            errorMessage.style.display = 'none';
 
-        const avatars = [
-            'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H',
-            'https://via.placeholder.com/50/20B2AA/FFFFFF?text=J',
-            'https://via.placeholder.com/50/FF6347/FFFFFF?text=K',
-            'https://via.placeholder.com/50/6A5ACD/FFFFFF?text=L',
-            'https://via.placeholder.com/50/F0E68C/000000?text=M',
-            'https://via.placeholder.com/50/FFD700/000000?text=N'
-        ];
-
-        function createTransactionElement(type, number, trxId, amount, date, time, avatarContent) {
-            const item = document.createElement('div');
-            item.classList.add('transaction-item');
-
-            const avatarDiv = document.createElement('div');
-            avatarDiv.classList.add('transaction-avatar');
-            if (avatarContent.startsWith('http')) {
-                const img = document.createElement('img');
-                img.src = avatarContent;
-                avatarDiv.appendChild(img);
-            } else {
-                avatarDiv.textContent = avatarContent;
+            if (!playerUid) {
+                errorMessage.textContent = 'Enter a Player UID to battle!';
+                errorMessage.style.display = 'block';
+                return;
             }
 
-            const detailsDiv = document.createElement('div');
-            detailsDiv.classList.add('transaction-details');
+            try {
+                const [personalResponse, brResponse, csResponse] = await Promise.all([
+                    fetch(`${BASE_URL}get_player_personal_show?server=${server}&uid=${playerUid}`),
+                    fetch(`${BASE_URL}get_player_stats?server=${server}&uid=${playerUid}&matchmode=RANKED&gamemode=br`),
+                    fetch(`${BASE_URL}get_player_stats?server=${server}&uid=${playerUid}&matchmode=RANKED&gamemode=cs`)
+                ]);
 
-            const typeSpan = document.createElement('div');
-            typeSpan.classList.add('transaction-type');
-            typeSpan.textContent = type.name;
+                const [data, brStats, csStats] = await Promise.all([
+                    personalResponse.json(),
+                    brResponse.json(),
+                    csResponse.json()
+                ]);
 
-            const infoDiv = document.createElement('div');
-            infoDiv.classList.add('transaction-info');
-            infoDiv.innerHTML = `${number}<br>TrxID : ${trxId}`;
+                if ((data.status === true || data.status === 'success') && data.data) {
+                    const playerData = data.data;
+                    profileAvatarChar.textContent = (playerData.basicinfo && playerData.basicinfo.nickname) ? playerData.basicinfo.nickname.charAt(0).toUpperCase() : '?';
+                    profileLevel.textContent = `Lv. ${(playerData.basicinfo && playerData.basicinfo.level) || '??'}`;
+                    profileNickname.textContent = (playerData.basicinfo && playerData.basicinfo.nickname) || 'N/A';
+                    profileUidDisplay.textContent = `UID: ${(playerData.basicinfo && playerData.basicinfo.accountid) || 'N/A'}`;
+                    profileClan.textContent = `Clan: ${(playerData.clanbasicinfo && playerData.clanbasicinfo.clanname) || 'N/A'}`;
 
-            detailsDiv.appendChild(typeSpan);
-            detailsDiv.appendChild(infoDiv);
+                    renderStats(brSoloStatsDiv, (brStats.data && brStats.data.solostats) || {}, 'BR Solo');
+                    renderStats(brDuoStatsDiv, (brStats.data && brStats.data.duostats) || {}, 'BR Duo');
+                    renderStats(brSquadStatsDiv, (brStats.data && brStats.data.quadstats) || {}, 'BR Squad');
+                    renderStats(csRankedStatsDiv, (csStats.data && csStats.data) || {}, 'CS Ranked');
 
-            const amountDateDiv = document.createElement('div');
-            amountDateDiv.classList.add('transaction-amount-date');
-
-            const amountSpan = document.createElement('div');
-            amountSpan.classList.add('transaction-amount', type.class);
-            amountSpan.textContent = `${type.class === 'send' ? '- ৳' : '+ ৳'}${amount.toLocaleString('bn-BD')}`;
-
-            const dateSpan = document.createElement('div');
-            dateSpan.classList.add('transaction-date');
-            dateSpan.textContent = `${time} ${date}`;
-
-            amountDateDiv.appendChild(amountSpan);
-            amountDateDiv.appendChild(dateSpan);
-
-            const arrowIcon = document.createElement('i');
-            arrowIcon.classList.add('fas', 'fa-chevron-right', 'arrow-icon');
-
-            item.appendChild(avatarDiv);
-            item.appendChild(detailsDiv);
-            item.appendChild(amountDateDiv);
-            item.appendChild(arrowIcon);
-
-            return item;
-        }
-
-        const transactionList = document.getElementById('transactionList');
-        const numTransactions = 20; // Number of transactions to generate
-
-        for (let i = 0; i < numTransactions; i++) {
-            const type = transactionTypes[getRandomInt(0, transactionTypes.length - 1)];
-            const number = generateBangladeshiNumber();
-            const trxId = generateRandomTrxID();
-            const amount = getRandomInt(5000, 50000); // 5000+ random amount
-            const date = getRandomDate(30); // Within last 30 days
-            const time = getRandomTime();
-            const avatarContent = avatars[getRandomInt(0, avatars.length - 1)];
-
-            const transactionElement = createTransactionElement(type, number, trxId, amount, date, time, avatarContent);
-            transactionList.appendChild(transactionElement);
-        }
+                    resultsDiv.style.display = 'block';
+                } else {
+                    errorMessage.textContent = 'Player not found in the arena!';
+                    errorMessage.style.display = 'block';
+                    profileAvatarChar.textContent = '?';
+                    profileLevel.textContent = 'Lv. ??';
+                    profileNickname.textContent = 'Player Nickname';
+                    profileUidDisplay.textContent = 'UID: N/A';
+                    profileClan.textContent = 'Clan: N/A';
+                    [brSoloStatsDiv, brDuoStatsDiv, brSquadStatsDiv, csRankedStatsDiv].forEach(div => div.innerHTML = '');
+                }
+            } catch (error) {
+                console.error('Error fetching player data:', error);
+                errorMessage.textContent = 'Connection lost in the battlefield!';
+                errorMessage.style.display = 'block';
+                [profileAvatarChar, profileLevel, profileNickname, profileUidDisplay, profileClan].forEach(el => el.textContent = el.id.includes('value') ? 'N/A' : (el.id === 'profileAvatarChar' ? '?' : 'N/A'));
+                [brSoloStatsDiv, brDuoStatsDiv, brSquadStatsDiv, csRankedStatsDiv].forEach(div => div.innerHTML = '');
+            }
+        });
     </script>
-
 </body>
 </html>
